@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.activity.compose)
     implementation(libs.core.splashscreen)
+    implementation(libs.health.services.client)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
