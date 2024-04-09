@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -56,8 +58,15 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.core.splashscreen)
     implementation(libs.health.services.client)
+    implementation(libs.hilt.android)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+    kapt(libs.hilt.android.compiler)
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
