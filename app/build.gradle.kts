@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.core.splashscreen)
     implementation(libs.health.services.client)
     implementation(libs.hilt.android)
+    implementation(libs.accompanist.permissions)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
