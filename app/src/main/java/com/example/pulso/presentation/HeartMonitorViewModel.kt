@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pulso.data.HealthServicesRepository
 import com.example.pulso.data.MeasureMessage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HeartMonitorViewModel(
+@HiltViewModel
+class HeartMonitorViewModel @Inject constructor(
     private val healthServicesRepository: HealthServicesRepository
 ) : ViewModel() {
     val availability: MutableState<DataTypeAvailability> =
