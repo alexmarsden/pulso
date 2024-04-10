@@ -12,7 +12,6 @@ import androidx.health.services.client.data.DeltaDataType
 import androidx.health.services.client.data.SampleDataPoint
 import androidx.health.services.client.getCapabilities
 import androidx.health.services.client.unregisterMeasureCallback
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +35,6 @@ class HealthServicesRepository(context: Context) {
      *
      * [callbackFlow] creates a bridge between a callback-based API and Kotlin flows.
      */
-    @ExperimentalCoroutinesApi
     fun heartRateMeasureFlow(): Flow<MeasureMessage> = callbackFlow {
         val callback = object : MeasureCallback {
             override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability: Availability) {
