@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.health.services.client)
     implementation(libs.hilt.android)
     implementation(libs.accompanist.permissions)
+    implementation(libs.material.icons.extended)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
