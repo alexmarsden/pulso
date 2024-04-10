@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.health.services.client.data.DataTypeAvailability
 
 @Composable
-fun MeasureDataScreen(
+fun HeartMonitorScreen(
     availability: DataTypeAvailability,
     heartRate: Double
 ) {
