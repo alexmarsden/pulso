@@ -33,4 +33,5 @@ core-splashscreen = { group = "androidx.core", name = "core-splashscreen", versi
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+googleDaggerHiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 
