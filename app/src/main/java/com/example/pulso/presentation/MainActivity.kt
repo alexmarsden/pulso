@@ -1,33 +1,26 @@
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter and
- * https://github.com/android/wear-os-samples/tree/main/ComposeAdvanced to find the most up to date
- * changes to the libraries and their usages.
- */
-
 package com.example.pulso.presentation
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Text
+import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
-import com.example.pulso.R
 import com.example.pulso.presentation.theme.PulsoTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val heartMonitorViewModel: HeartMonitorViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
@@ -36,38 +29,35 @@ class MainActivity : ComponentActivity() {
         setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
-            WearApp("Android")
+            PulsoApp(heartMonitorViewModel)
         }
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun WearApp(greetingName: String) {
+fun PulsoApp(
+    heartMonitorViewModel: HeartMonitorViewModel
+) {
     PulsoTheme {
-        Box(
-                modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colors.background),
-                contentAlignment = Alignment.Center
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            timeText = { TimeText() }
         ) {
-            TimeText()
-            Greeting(greetingName = greetingName)
+            val availability by heartMonitorViewModel.availability
+            val heartRate by heartMonitorViewModel.heartRate
+            val uiState by heartMonitorViewModel.uiState
+
+            if (uiState == UiState.Supported) {
+                val permissionState = rememberPermissionState(
+                    permission = Manifest.permission.BODY_SENSORS,
+                    onPermissionResult = { granted -> /* do something */ }
+                )
+                HeartMonitorScreen(
+                    availability,
+                    heartRate
+                )
+            }
         }
     }
-}
-
-@Composable
-fun Greeting(greetingName: String) {
-    Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.primary,
-            text = stringResource(R.string.hello_world, greetingName)
-    )
-}
-
-@Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
-@Composable
-fun DefaultPreview() {
-    WearApp("Preview Android")
 }
