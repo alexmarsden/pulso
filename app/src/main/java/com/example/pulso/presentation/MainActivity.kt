@@ -8,12 +8,14 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.TimeText
 import com.example.pulso.presentation.theme.PulsoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,6 +55,14 @@ fun PulsoApp(
                     permission = Manifest.permission.BODY_SENSORS,
                     onPermissionResult = { granted -> /* do something */ }
                 )
+
+                LaunchedEffect(permissionState) {
+                    if (permissionState.status.isGranted) {
+                        // do something
+                    } else {
+                        permissionState.launchPermissionRequest()
+                    }
+                }
                 HeartMonitorScreen(
                     availability,
                     heartRate
