@@ -30,19 +30,18 @@ class HeartMonitorViewModel @Inject constructor(
                 UiState.NotSupported
             }
         }
+    }
 
-        viewModelScope.launch {
-            healthServicesRepository.heartRateMeasureFlow()
-                .collect { measureMessage ->
-                    when (measureMessage) {
-                        is MeasureMessage.MeasureAvailability -> {
-                            availability.value = measureMessage.availability
-                        }
-                        is MeasureMessage.MeasureData -> {
-                            heartRate.value = measureMessage.data.last().value
-                        }
-                    }
+    suspend fun measureHeartRate() {
+        healthServicesRepository.heartRateMeasureFlow().collect { measureMessage ->
+            when (measureMessage) {
+                is MeasureMessage.MeasureAvailability -> {
+                    availability.value = measureMessage.availability
                 }
+                is MeasureMessage.MeasureData -> {
+                    heartRate.value = measureMessage.data.last().value
+                }
+            }
         }
     }
 }
